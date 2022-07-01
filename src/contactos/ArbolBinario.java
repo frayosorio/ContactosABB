@@ -1,6 +1,8 @@
 package contactos;
 
 import java.io.BufferedReader;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class ArbolBinario {
 
@@ -61,4 +63,42 @@ public class ArbolBinario {
 
         }
     }
+
+    public int obtenerLongitud() {
+        return obtenerLongitud(raiz);
+    }
+
+    private int obtenerLongitud(Nodo n) {
+        if (n == null) {
+            return 0;
+        } else {
+            return obtenerLongitud(n.izquierdo) + 1 + obtenerLongitud(n.derecho);
+        }
+    }
+
+    public void mostrar(JTable tbl) {
+        int filas = obtenerLongitud();
+        String[] encabezados = {"Nombre", "Telefono", "Celular", "Direccion", "Correo"};
+        String[][] datos = new String[filas][encabezados.length];
+        mostrarInOrden(raiz, datos, -1);
+        
+        DefaultTableModel dtm=new DefaultTableModel(datos, encabezados);
+        
+        tbl.setModel(dtm);
+    }
+
+    private int mostrarInOrden(Nodo n, String[][] datos, int fila){
+        if(n!=null){
+            fila = mostrarInOrden(n.izquierdo, datos, fila);
+            fila++;
+            datos[fila][0]=n.nombre;
+            datos[fila][1]=n.telefono;
+            datos[fila][2]=n.movil;
+            datos[fila][3]=n.direccion;
+            datos[fila][4]=n.correo;
+            fila = mostrarInOrden(n.derecho, datos, fila);
+        }
+        return fila;
+    }
+    
 }

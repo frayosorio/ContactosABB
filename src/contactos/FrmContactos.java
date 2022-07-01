@@ -12,7 +12,10 @@ public class FrmContactos extends javax.swing.JFrame {
     public FrmContactos() {
         initComponents();
         ab = new ArbolBinario();
-        ab.desdeArchivo(null);
+        String nombreArchivo=System.getProperty("user.dir")+"/src/datos/contactos.csv";
+        
+        ab.desdeArchivo(nombreArchivo);
+        ab.mostrar(tblContactos);
     }
 
     /**
@@ -29,7 +32,7 @@ public class FrmContactos extends javax.swing.JFrame {
         btnEliminar = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblContactos = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -56,7 +59,7 @@ public class FrmContactos extends javax.swing.JFrame {
         btnGuardar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBar1.add(btnGuardar);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblContactos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -67,7 +70,7 @@ public class FrmContactos extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblContactos);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -127,7 +130,7 @@ public class FrmContactos extends javax.swing.JFrame {
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JTable tblContactos;
     // End of variables declaration//GEN-END:variables
 }
