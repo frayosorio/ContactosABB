@@ -119,8 +119,77 @@ public class ArbolBinario {
 
     }
 
-    public void eliminarNodo(Nodo n) {
+    //Obteneer el nodo más a la izquierda del subarbol derecho
+    private Nodo obtenerNodoSucesor(Nodo n) {
+        n = n.derecho;
+        while (n.izquierdo != null) {
+            n = n.izquierdo;
+        }
+        return n;
+    }
 
+    public void eliminarNodo(Nodo n) {
+        Nodo apuntador = raiz;
+        Nodo padre = null;
+        //Buscar el nodo padre del nodo a eliminar
+        boolean encontrado = false;
+        while (apuntador != null && !encontrado) {
+            if (apuntador == n) {
+                encontrado = true;
+            } else {
+                padre = apuntador;
+                if (n.nombre.compareTo(apuntador.nombre) < 0) {
+                    apuntador = apuntador.izquierdo;
+                } else {
+                    apuntador = apuntador.derecho;
+                }
+            }
+        }
+        if (encontrado) {
+            //es un nodo hoja?
+            if (apuntador.izquierdo == null && apuntador.derecho == null) {
+                //es la raiz?
+                if (padre == null && apuntador == raiz) {
+                    raiz = null;
+                } else {
+                    if (padre.izquierdo == apuntador) {
+                        padre.izquierdo = null;
+                    } else if (padre.derecho == apuntador) {
+                        padre.derecho = null;
+                    }
+                }
+            } //es un nodo con hijo izquierdo
+            else if (apuntador.izquierdo != null && apuntador.derecho == null) {
+                //es la raiz?
+                if (padre == null && apuntador == raiz) {
+                    raiz = apuntador.izquierdo;
+                } else {
+                    if (padre.izquierdo == apuntador) {
+                        padre.izquierdo = apuntador.izquierdo;
+                    } else if (padre.derecho == apuntador) {
+                        padre.derecho = apuntador.izquierdo;
+                    }
+                }
+            }//es un nodo con hijo derecho
+            else if (apuntador.izquierdo == null && apuntador.derecho != null) {
+                //es la raiz?
+                if (padre == null && apuntador == raiz) {
+                    raiz = apuntador.derecho;
+                } else {
+                    if (padre.izquierdo == apuntador) {
+                        padre.izquierdo = apuntador.derecho;
+                    } else if (padre.derecho == apuntador) {
+                        padre.derecho = apuntador.derecho;
+                    }
+                }
+            } //es un nodo con 2 hijoz
+            else if (apuntador.izquierdo != null && apuntador.derecho != null) {
+                //buscar el nodo sucesor
+                n = obtenerNodoSucesor(apuntador);
+                eliminarNodo(n);
+                apuntador.asignar(n.nombre, n.telefono, n.movil, n.direccion, n.correo);
+            }
+        }
     }
 
     public void mostrar(JTable tbl) {
@@ -167,6 +236,13 @@ public class ArbolBinario {
             fila = mostrarInOrden(n.derecho, datos, fila);
         }
         return fila;
+    }
+    
+    //Obtener el nodo ubicado en una posición en INORDEN
+    public Nodo obtenerNodoPosicion(int posicion) {
+        nodoBuscado = null;
+        buscarInOrden(raiz, -1, posicion);
+        return nodoBuscado;
     }
 
 }
